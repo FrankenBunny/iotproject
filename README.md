@@ -1,15 +1,24 @@
 Julia Johansson jj224iw
 
-# GamerHelper
-*The redundant introductionairy IoT device for gamers.*
+# ProZone: An introductionairy IoT device for gamers.
+The ProZone is an IoT device developed by gamers, for gamers. The device can easilt be built by using the information and steps detailed in this file.  The process consists out of obtaining the required materials, setting up the development environment, implementing the software, designing the user interface, and finally connecting all the steps. When following this guide, the process is estimated to take 8 hours.
 
-Give a short and brief overview of what your project is about. What needs to be included:
-- [ ] Title
-- [ ] Your name and student credentials (xx666x)
-- [ ] Short project overview
-- [ ] How much time it might take to do (approximation)
+*Give a short and brief overview of what your project is about. What needs to be included:*
+- [x] Title
+- [x] Your name and student credentials (xx666x)
+- [x] Short project overview
+- [x] How much time it might take to do (approximation)
+
 
 ## Objective
+*ProZone was designed to be reliable in terms of its purpose, cost-efficient in terms of required materials, and beginner-friendly in terms of the neccessary prior knowledge within the area of IoT.*
+
+To game or not to game is a question old as time. Before jumping into another competitive round one might wonder how, with this new top-of-the-line equipment, they still seem to struggle. Maybe it's not the equipment's fault after all: maybe it's the gamer's. Alas, ProZone intends to tackle another, previously unexplored factor: the environment. The environment, a factor usually overlooked and forgotten, plays a vital role in a gamer's performance. With sensors to measure temperature, humidity, and light, fortified by insights from the gamers themselves, ProZone manages to track the optimal environment for each gamer.
+
+To ensure that gamers can continue replacing fault gear, hindering their ability, the ProZone can be constructed by any gamer using readily available, cost-effective materials found online.
+
+
+
 Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
 
 - [ ] Why you chose the project
@@ -67,7 +76,9 @@ How often is the data sent?
 Which wireless protocols did you use (WiFi, LoRa, etc …)?
 Which transport protocols were used (MQTT, webhook, etc …)
 *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
-Presenting the data
+
+
+## Presenting the data
 Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
 
 Provide visual examples on how the dashboard looks. Pictures needed.
