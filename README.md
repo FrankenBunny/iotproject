@@ -4,27 +4,30 @@ Julia Johansson jj224iw
 The ProZone is an IoT device developed by gamers, for gamers. The device can easilt be built by using the information and steps detailed in this file.  The process consists out of obtaining the required materials, setting up the development environment, implementing the software, designing the user interface, and finally connecting all the steps. When following this guide, the process is estimated to take 8 hours.
 
 *Give a short and brief overview of what your project is about. What needs to be included:*
+
 - [x] Title
 - [x] Your name and student credentials (xx666x)
 - [x] Short project overview
 - [x] How much time it might take to do (approximation)
 
-
 ## Objective
 *ProZone was designed to be reliable in terms of its purpose, cost-efficient in terms of required materials, and beginner-friendly in terms of the neccessary prior knowledge within the area of IoT.*
 
-To game or not to game is a question old as time. Before jumping into another competitive round one might wonder how, with this new top-of-the-line equipment, they still seem to struggle. Maybe it's not the equipment's fault after all: maybe it's the gamer's. Alas, ProZone intends to tackle another, previously unexplored factor: the environment. The environment, a factor usually overlooked and forgotten, plays a vital role in a gamer's performance. With sensors to measure temperature, humidity, and light, fortified by insights from the gamers themselves, ProZone manages to track the optimal environment for each gamer.
+To game or not to game is a question old as time. Before jumping into another competitive match one might wonder how, with new equipment, the struggle remains. Maybe it's not the equipment's fault after all: maybe it's the gamer's. Alas, ProZone intends to tackle another, previously unexplored factor: the environment. A factor usually overlooked and forgotten, the environment plays a vital role in a gamer's performance and may differ from one gamer to another. The ProZone sets out to track each gamer's optimal environment by utilzing sensors to capture temperatures, humidity levels, and light levels. The data is then fortified by insights from the gamers themselves.
 
-To ensure that gamers can continue replacing fault gear, hindering their ability, the ProZone can be constructed by any gamer using readily available, cost-effective materials found online.
+To ensure that gamers can continue replacing faulty gear, hindering their ability, the ProZone can be constructed by any gamer willing to take on the task. The device can be constructed using readily available, cost-effective materials found online in a starter pack. The design is straightforward and accessible, requiring no prior IoT knowledge whilst having the entire construction process detailed in this document.
 
+A common saying states:
 
+*It is not the destination, it is the journey that matters.*
+
+And it remains true in the context of ProZone. As the result of constructing your own device will not only give you the ability to track your optimal environment, potentially improving your gaming experience exponentially, but it introduces each undertaker of the task to the great world of IoT. The journey requires the task-bearer to learn about multiple components, how the combination of different components can be used in a single purpose, how to implement the software required to both capture and send information to their custom dashboard.
 
 Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
 
-- [ ] Why you chose the project
-- [ ] What purpose does it serve
-- [ ] What insights you think it will give
-
+- [x] Why you chose the project
+- [x] What purpose does it serve
+- [x] What insights you think it will give
 
 ## Material
 Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
