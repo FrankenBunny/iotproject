@@ -1,7 +1,7 @@
 Julia Johansson jj224iw
 
-# ProZone: An introductionairy IoT device for gamers.
-The ProZone is an IoT device developed by gamers, for gamers. The device can easilt be built by using the information and steps detailed in this file.  The process consists out of obtaining the required materials, setting up the development environment, implementing the software, designing the user interface, and finally connecting all the steps. When following this guide, the process is estimated to take 8 hours.
+# ProZone: An introductionairy IoT device for gamers
+The ProZone is an IoT device developed by gamers, for gamers. The device can easily be built by using the information and steps detailed in this document.  The process consists out of obtaining the required materials, setting up the development environment, implementing the software, designing the user interface, and finally combining all the steps to create the IoT device known as ProZone. Using the information and steps detailed in this docuement the process is estimated to take 8 hours.
 
 *Give a short and brief overview of what your project is about. What needs to be included:*
 
@@ -36,9 +36,20 @@ Explain all material that is needed. All sensors, where you bought them and thei
 - [ ] What the different things (sensors, wires, controllers) do - short specifications
 - [ ] Where you bought them and how much they cost
 
-| Type | Name | Usage | In Device |
+| Type | Item | Utility | Count |
 |---|---|---|---|
-|Micro controller|Pico|Blah blah blah|Blah blah bla|
+|Microcontroller|Raspberry Pi Pico WH|Used|1|
+|Prototyping Board|Breadboard 840 connections|Build and test circuits without soldering|1|
+|Cable|USB Cable A-male to micro B 1.8m||1|
+|Lab Cable|Male/Male 30cm Black|Connecting components on the breadboard|3|
+|Lab Cable|Male/Male 30cm Red|Connecting components on the breadboard|3|
+|Lab Cable|Male/Female 30cm Black|Connecting components on the breadboard to the microcontroller|1|
+|Lab Cable|Male/Female 30cm Blue|Connecting components on the breadboard to the microcontroller|2|
+|Lab Cable|Male/Female 30cm Red|Connecting components on the breadboard to the microcontroller|1|
+|Resistor|Carbon Film Resistor 0.25W 4.7kohm||1|
+|Sensor|Photoresistor CdS 4-7 kohm||1|
+|Sensor|Digital Temperature and Humidity Sensor DHT11||1|
+|Switch|Tilt Switch||1|
 
 ## Computer setup
 How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
