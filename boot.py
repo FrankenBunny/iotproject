@@ -49,7 +49,7 @@ def http_get(url = 'http://detectportal.firefox.com/'):
 try:
     ip = connect()
     if ip is None:
-        print("Failed to establish connection.")
+        raise SystemExit("Failed to establish connection. Halting execution.")
 except KeyboardInterrupt:
     print("Keyboard interrupt")
 
