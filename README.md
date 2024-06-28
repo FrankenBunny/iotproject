@@ -66,35 +66,123 @@ The next step consisted out of flashing the microcontroller with its firmware. T
 13. Save and the device should directly start printing output.
 
 
-## Putting everything together
+## Connecting the hardware
 ![circuit](https://hackmd.io/_uploads/B1nG3ljU0.png)
+The circuit diagram above shows how the different components have been connected. The breadboard is excluded from the circuit diagram, instead the grounding and power supply has been connected by the wires.
 
-How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?
+### Raspberry Pi Pico
+1. Connect the female end of the only male/female black lab cable, to the GND pin located on the Raspberry Pi Pico. Connect the male end on the same black cable to the ground rail on the breadboard.
+2. Connect the female end of the only male/female red lab cable, to the 3V3-OUT pin on the Raspberry Pi Pico. Connect the male end on the same red cable to the power rail on the breadboard.
+3. Connect each of the blue male/female lab cables, to one out of the GP27, GP26, and GP22 pins respectively.
+
+### DHT11
+1. Connect the male end of a male/male black lab cable to the ground rail on the breadboard.
+2. Connect the other male end to the GND pin on the DHT11 sensor.
+3. Connect the male end of a male/male red lab cable to the power rail on the breadboard.
+4. Connect the other end to the VDD pin on the DHT11 sensor.
+5. Connect the male end of the blue cable connected to the GP22 pin to the remaining pin on the DHT11 sensor.
+
+### Photoresistor (DOUBLECHECK, move the output behind the resistor)
+1. Connect the male end of a male/male black lab cable to the ground rail on the breadboard.
+2. Connect the other male end to one end of the 4.7kohm resistor.
+4. Connect the male end of a male/male red lab cable to the ground rail on the breadboard.
+5. Connect the other male end to the other end of the 4.7kohm resistor.
+6. Connect the male end of the blue cable connected to the GP27 pin to the output pin on the photoresistor.
+
+### Tilt switch
+1. Connect the male end of a male/male black lab cable to the ground rail on the breadboard.
+2. Connect the other male end to the GND pin on the tilt switch. 
+3. Connect the male end of a male/male red lab cable to one end of the 330 ohm resistor.
+4. Connect the other end of the resistor to the power pin on the tilt switch.
+5. Connect the male end of the blue cable connected to the GP26 pin to the output pin on the tilt switch.
 
 
-- [ ] Circuit diagram (can be hand drawn)
-- [ ] *Electrical calculations
+*How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?*
+
+
+- [x] Circuit diagram (can be hand drawn)
 
 
 ## Platform
-Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
+Ubidots is the selected platform for data management and visualization, and it was chosen to allow the task-bearer the opportunity to learn how to use REST API's and coding. It is a cloud-based platform specially designed for IoT applications. Ubidots was selected due to its user friendly UI and vast range of components used for visualization even in the free version. In Ubidots a user with a free memembership can have up to three devices and one dashboard. Each device may capture multiple variables, which the developer designates. The dashboard can then through the use of components display the data within these variables. If the ProZone was to be expanded, depending on the need the premium version could be utilized to offer a greater variety of data analysis through the expanded librabry of components available in the dashboard.
 
-Is your platform based on a local installation or a cloud? Do you plan to use a paid subscription or a free? Describe the different alternatives on going forward if you want to scale your idea.
+### Setup the platform
+In this section the setup of the Ubidots platform is detailed. The setup is required prior to the implementation of the software in order to accurately transmit the data to its corresponding variable. The table below displays the variables, their purpose, and their Ubidots dashboard component.
+|Name|Purpose|Component|
+|---|---|---|
+|Tilt|Captures the status of the tilt switch.|Indicator|
+|Temperature|Captures the air temperature.|Thermometer|
+|Humidity|Captures the air humidity.|Gauge|
+|Light|Captures the light levels.|Gauge|
+|TiltTemperature|Captures the air temperature when the device has been tilted.|Column in Values table|
+|TiltHumidity|Captures the air humidity when the device has been tilted.|Column in Values table|
+|TiltLight|Captures the light levels when the device has been tilted.|Column in Values table|
 
-- [ ] Describe platform in terms of functionality
-- [ ] *Explain and elaborate what made you choose this platform
+1. Create a blank device named ProZone.
+2. Create the variables seen in the table.
+3. Create a new dashboard named *ProZone Dashboard*.
+4. Create the individual components listed in the table.
+5. Create the columns for each tilt variable in the Values table.
+    1. Set the aggregation method for the variable to Average.
+    2. Set the span to this month.
+    3. Set the sample period to 1 month(s).
+
+## Presenting the data
+*Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?*
+
+- [ ] *Provide visual examples on how the dashboard looks. Pictures needed.*
+- [ ] How often is data saved in the database.
+- [ ] *Explain your choice of database.
+- [ ] *Automation/triggers of the data.
+- [ ] Finalizing the design
+- [ ] Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in an other way, or even better? Pictures are nice!
 
 
 ## The code
-Import core functions of your code here, and don't forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
+The software required by ProZone consists out of three files, `keys.py`, `boot.py`, and `main.py`. The following sections describe the purpose and implementation for each file.
 
-```=
-#Temporary code snippet
-val someCode = 1
-# Explain your code!
-```
+### `keys.py`
+This file contains the login credentials for the WiFi the ProZone should connect to, with both the name of the network and its' password stored as separate variables.
 
-## Transmitting the data / connectivity
+### `boot.py`
+The boot file contains the processes neccessary prior to the execution of the main process located in the main file. In this file the network connection is setup since it is required for the main execution to function. The execution requires the importation of the keys file, the network library, and sleep from the time library. Once the neccessary imports are made there exists two functions except from the main execution. The `http_get()` function requires the libraries socket and time to be locally imported.
+
+1. Try to establish a connection to the existing network using the `connect()` function.
+2. If connection failed:
+    1. Reset machine.
+3. Try to perform the HTTP GET request using the `http_get(url)` function.
+ 
+
+#### `connect()`
+The function is used to establish a connection to a WiFi network. The resets the network interface to ensure that a fresh connection is established following a boot or reset. If a connection cannot be established, the developer is resetted.
+1. Reset the network interface.
+2. Set the network interface to station mode, to ensure it connects to an existing network rather than tries to create one itself.
+3. Connect to the network with the credentials stored in the keys file.
+4. Wait for connection to be established.
+5. If connection is established:
+    1. Stop waiting
+    2. Notify of successful connection.
+6. If connection is not established and time limit has succeeded:
+    1. Notify of failed connection.
+7. End
+
+
+#### `http_get(url)`
+This function makes sure that it can successfully perform a HTTP GET request. This is neccessary to later send the data using the API from Ubidots.
+1. Parse the URL and store the values as their respective variables in the HTTP request.
+2. Get the IP address of the host server.
+3. Initialize the socket.
+4. Connect to the host address.
+5. Wait for response.
+6. Receive and print the response.
+8. Close the socket connection.
+
+### `Main.py`
+This file contains the main execution for ProZone. This includes the handling of sensors as well as communicating with the Ubidots API to send the captured data. The process requires the libraries machine, specifically ADC and Pin, time, specifically sleep, dht, as well as network and requests.
+
+
+
+
 How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
 
 How often is the data sent?
@@ -103,16 +191,8 @@ Which transport protocols were used (MQTT, webhook, etc …)
 *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
 
 
-## Presenting the data
-Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
 
-Provide visual examples on how the dashboard looks. Pictures needed.
-How often is data saved in the database.
-*Explain your choice of database.
-*Automation/triggers of the data.
-Finalizing the design
-Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in an other way, or even better? Pictures are nice!
 
-Show final results of the project
-Pictures
-*Video presentation
+## Show final results of the project
+- [ ] Pictures
+- [ ] *Video presentation
