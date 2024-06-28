@@ -12,14 +12,19 @@ def connect():
         wlan.config(pm = 0xa11140)
         wlan.connect(keys.WIFI_SSID, keys.WIFI_PASS)  # Your WiFi Credential
         print('Waiting for connection...', end='')
+
         # Check if it is connected otherwise wait
         while not wlan.isconnected() and wlan.status() >= 0:
             print('.', end='')
             sleep(1)
-    # Print the IP assigned by router
-    ip = wlan.ifconfig()[0]
-    print('\nConnected on {}'.format(ip))
-    return ip
+    
+    if wlan.isconnected():
+        ip = wlan.ifconfig()[0]
+        print('\nConnected on {}'.format(ip))
+        return ip
+    else:
+        print("\nFailed to connect.")
+        return None
 
 def http_get(url = 'http://detectportal.firefox.com/'):
     import socket                           # Used by HTML get request
@@ -38,6 +43,8 @@ def http_get(url = 'http://detectportal.firefox.com/'):
 # WiFi Connection
 try:
     ip = connect()
+    if ip is None:
+        print("Failed to establish connection.")
 except KeyboardInterrupt:
     print("Keyboard interrupt")
 
