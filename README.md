@@ -82,10 +82,10 @@ The circuit diagram above shows how the different components have been connected
 4. Connect the other end to the VDD pin on the DHT11 sensor.
 5. Connect the male end of the blue cable connected to the GP22 pin to the remaining pin on the DHT11 sensor.
 
-### Photoresistor (DOUBLECHECK, move the output behind the resistor)
+### Photoresistor
 1. Connect the male end of a male/male black lab cable to the ground rail on the breadboard.
-2. Connect the other male end to one end of the 4.7kohm resistor.
-4. Connect the male end of a male/male red lab cable to the ground rail on the breadboard.
+2. Connect the other male end to one end of the photoresistor.
+4. Connect the male end of a male/male red lab cable to the power rail on the breadboard.
 5. Connect the other male end to the other end of the 4.7kohm resistor.
 6. Connect the male end of the blue cable connected to the GP27 pin to the output pin on the photoresistor.
 
@@ -126,16 +126,7 @@ In this section the setup of the Ubidots platform is detailed. The setup is requ
     1. Set the aggregation method for the variable to Average.
     2. Set the span to this month.
     3. Set the sample period to 1 month(s).
-
-## Presenting the data
-*Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?*
-
-- [ ] *Provide visual examples on how the dashboard looks. Pictures needed.*
-- [ ] How often is data saved in the database.
-- [ ] *Explain your choice of database.
-- [ ] *Automation/triggers of the data.
-- [ ] Finalizing the design
-- [ ] Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in an other way, or even better? Pictures are nice!
+6. Open the API key from the API credentials tab which is accessed by pressing the profile icon in the top right corner.
 
 
 ## The code
@@ -178,21 +169,65 @@ This function makes sure that it can successfully perform a HTTP GET request. Th
 8. Close the socket connection.
 
 ### `Main.py`
-This file contains the main execution for ProZone. This includes the handling of sensors as well as communicating with the Ubidots API to send the captured data. The process requires the libraries machine, specifically ADC and Pin, time, specifically sleep, dht, as well as network and requests.
+This file contains the main execution for ProZone. This includes the handling of sensors as well as communicating with the Ubidots API to send the captured data. The process requires the libraries machine, specifically ADC and Pin, time, specifically sleep, dht, sys, as well as network and requests. There exists two functions besides the main execution. Prior to defining these functions or the main execution the Ubidot variables are defined. The necessary variables are: API Token, Device name, one for each variable created in the Ubidot device, as well as a delay variable which adjusts the delay between successive transmissions to 5 seconds.
+
+1. Define the pins.
+    1. 27 is the analog input from the photoresistor.
+    2. 26 is the input pin for the DHT11, set up using the corresponding class within the dht module.
+    3. 22 is the digital input from the tilt switch.
+3. Define a variable for:
+    1. Temperature
+    2. Humidity
+    3. Light
+4. If there is no established internet connection:
+    1. Exit execution.
+5. Create a infinite loop for:
+    1. If the tilt switch is active:
+        1. Print that the switch is active.
+        2. Read the raw input from the photoresistor and store it as a percentage representing the light intensity.
+        :::info
+        light = 100 - round(lightRead / 65535 * 100, 2)
+        :::
+        3. Print the current light level percentage.
+        4. Try to measure the temperature and humidity from the DHT11 sensor and store in the corresponding variables, if not successful:
+            1. Print error message.
+        5. Print the temperature in degrees of Celcius.
+        6. Print the humidity percentage.
+        7. Send the data to the non-tilt variables in Ubidots using the `sendData()` function.
+    2. If the tilt switch is not active:
+        1. Print that the switch is inactive.
+        2. Follow the steps 2-6 if the tilt switch was active.
+        3. Send the data to the tilt variables in Ubidots using the `sendData()` function.
+    3. Sleep for 5 seconds, using the delay variable.
+
+#### `buildJson(variables)`
+1. Variables is a dictionairy of key-value pairs, where each key is the name of the variable in the Ubidots device, and the value is the corresponding sensor reading.
+2. Try to create a new dictionairy which matches Json format by parsing the given dictionairy. Do this by creating creating a key for each key in the given dictionairy. The value is then a sub-dictionairy which contains the key `value` and the corresponding sensor reading as the actual value.
+3. Return the new dictionairy.
+```=py
+# Input
+{"Temperature": 25, "Humidity": 60}
+
+# Output
+{
+    "Temperature": {"value": 25},
+    "Humidity": {"value": 60}
+}
+```
+
+### `sendData(device, variables)` 
+This function uses the urequests module to create HTTPS requests. A HTTPS package requires the URL to know where to send the data, the headers to include the requests metadata, and finally, the data given in Json format.
+1. Try to send the data to the API by
+2. Creating the url for the HTTPS request, which defines which device is to be accessed as the given device.
+3. Include the token and define the format as Json.
+4. Using the `buildJson()`, parse the variables.
+5. If the data is succesfully parsed, combine the components of the HTTPS request to create and send the POST request.
+6. If the request was successful:
+    1. Print the response.
+7. If the request was not successful:
+    1. Print an error message.
 
 
-
-
-How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
-
-How often is the data sent?
-Which wireless protocols did you use (WiFi, LoRa, etc …)?
-Which transport protocols were used (MQTT, webhook, etc …)
-*Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
-
-
-
-
-## Show final results of the project
-- [ ] Pictures
-- [ ] *Video presentation
+## Results
+![ProZone](https://hackmd.io/_uploads/HJ2pihRUA.png)
+The final result is a dashboard containing displaying the current reads from the sensors as well as a table which shows the average for each sensor when the device has been tilted. This allows the gamer to actively track their environment and know when the environment is nearing a sub optimal state. The process of constructing the ProZone allows for a wide introduction to the world of IoT both in terms of hardware and software. There exists potential to learn more about the process of developing IoT devices by for exampel integrating more complex sensors, developing a prototype and design for the device, and integrating security. 
